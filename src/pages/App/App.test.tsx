@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders Hello message', () => {
   render(<App />);
-  const helloElement = screen.getByText(/Hello/i);
-  expect(helloElement).toBeInTheDocument();
+  const titleElement = screen.getByText(/Silicon Valley Code Camp/i);
+  expect(titleElement).toBeInTheDocument();
 });
