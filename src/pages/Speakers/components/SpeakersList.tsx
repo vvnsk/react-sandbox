@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import ReactPlaceholder from "react-placeholder";
 import { data } from "../../../speaker-data";
+import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import useRequestDelay, { REQUEST_STATUS } from "../hooks/useRequestDelay";
 import Speaker from "./Speaker";
 
@@ -10,7 +12,7 @@ const SpeakersList = (props: any) => {
         error,
         updateRecord,
       } = useRequestDelay(2000, data);
-    const { showSessions } = props;
+      const { searchQuery, eventYear } = useContext(SpeakerFilterContext);
 
     if(requestStatus === REQUEST_STATUS.FAILURE) {
         return (
@@ -30,20 +32,29 @@ const SpeakersList = (props: any) => {
             >
                 <div className="row">
                     {
-                        speakersData.map(
-                            (speaker: any) =>(
-                                <Speaker 
-                                    key={speaker.id} 
-                                    speaker={speaker} 
-                                    showSessions={showSessions}
-                                    onFavoriteToggle={(doneUpdating: any) => {
-                                        updateRecord({
-                                            ...speaker,
-                                            favorite: !speaker.favorite,
-                                        }, doneUpdating);
-                                    }}
-                                />
-                            )
+                        speakersData.filter((speaker: any) => (
+                            speaker.first.toLowerCase().includes(searchQuery) ||
+                            speaker.last.toLowerCase().includes(searchQuery)
+                        ))
+                        .filter((speaker: any) => (
+                            speaker.sessions.find((session: any) => (
+                                session.eventYear === eventYear
+                            ))
+                        ))
+                        .map((speaker: any) => 
+                            <Speaker
+                            key={speaker.id}
+                            speaker={speaker}
+                            onFavoriteToggle={(callBack: any) => {
+                                updateRecord(
+                                {
+                                    ...speaker,
+                                    favorite: !speaker.favorite,
+                                },
+                                callBack
+                                );
+                            }}
+                            />
                         )
                     }
                 </div>
