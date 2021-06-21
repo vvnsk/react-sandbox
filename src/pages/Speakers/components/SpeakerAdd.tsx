@@ -1,5 +1,10 @@
+import withAuth from "../../../common/components/withAuth";
+
 const SpeakerAdd = (props: any) => {
-    const { eventYear, insertRecord } = props;
+    const { eventYear, insertRecord, loggedInUser } = props;
+
+    if(!loggedInUser || loggedInUser.length === 0) return null;
+
     return (
       <a href="#" className="addSes">
         <i
@@ -31,4 +36,4 @@ const SpeakerAdd = (props: any) => {
     );
   }
   
-  export default SpeakerAdd;
+  export default withAuth(SpeakerAdd);
