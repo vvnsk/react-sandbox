@@ -43,17 +43,9 @@ const SpeakersList = (props: any) => {
                         ))
                         .map((speaker: any) => 
                             <Speaker
-                            key={speaker.id}
-                            speaker={speaker}
-                            onFavoriteToggle={(callBack: any) => {
-                                updateRecord(
-                                {
-                                    ...speaker,
-                                    favorite: !speaker.favorite,
-                                },
-                                callBack
-                                );
-                            }}
+                                key={speaker.id}
+                                speaker={speaker}
+                                updateRecord={updateRecord}
                             />
                         )
                     }
