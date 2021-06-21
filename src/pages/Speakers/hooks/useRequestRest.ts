@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 export const REQUEST_STATUS = {
@@ -6,27 +7,26 @@ export const REQUEST_STATUS = {
   FAILURE: "failure",
 };
 
-const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
+const baseUrl = "http://localhost:8080/speakers";
+
+const useRequestRest = () => {
   const [data, setData] = useState([]);
   const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING);
   const [error, setError] = useState("");
 
-  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
   useEffect(() => {
     const delayFunc = async () => {
       try {
-        await delay(delayTime);
-        //throw "Had Error."
+        const result: any = await axios.get(baseUrl);
         setRequestStatus(REQUEST_STATUS.SUCCESS);
-        setData(initialData);
+        setData(result.data);
       } catch (e: any) {
         setRequestStatus(REQUEST_STATUS.FAILURE);
         setError(e);
       }
     }
     delayFunc();
-  }, [delayTime, initialData]);
+  }, []);
 
   const updateRecord = (record: any, callBack: any) => {
     const originalRecords = [...data];
@@ -37,7 +37,7 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
     const delayFunction = async () => {
       try {
         setData(newRecords);
-        await delay(delayTime);
+        await axios.put(`${baseUrl}/${record.id}`, record);
         if(callBack) {
           callBack();
         }
@@ -59,7 +59,7 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
     const delayFunction = async () => {
       try {
         setData(newRecords);
-        await delay(delayTime);
+        await axios.post(baseUrl, record);
         if(callBack) {
           callBack();
         }
@@ -81,7 +81,7 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
     const delayFunction = async () => {
       try {
         setData(newRecords);
-        await delay(delayTime);
+        await axios.delete(`${baseUrl}/${record.id}`, record);
         if(callBack) {
           callBack();
         }
@@ -106,4 +106,4 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
   };
 }
 
-export default useRequestDelay;
+export default useRequestRest;
