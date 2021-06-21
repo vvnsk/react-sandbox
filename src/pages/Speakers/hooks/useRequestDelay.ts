@@ -28,11 +28,55 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
     delayFunc();
   }, [delayTime, initialData]);
 
-  const updateRecord = (recordUpdated: any, callBack: any) => {
+  const updateRecord = (record: any, callBack: any) => {
     const originalRecords = [...data];
-    const newRecords: any = data.map(function (rec: any) {
-      return rec.id === recordUpdated.id ? recordUpdated : rec;
+    const newRecords: any = data.map((rec: any) => {
+      return rec.id === record.id ? record : rec;
     });
+
+    const delayFunction = async () => {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        if(callBack) {
+          callBack();
+        }
+      } catch (error) {
+        console.log("error thrown inside delayFunction", error);
+        if(callBack) {
+          callBack();
+        }
+        setData(originalRecords);
+      }
+    }
+    delayFunction();
+  }
+
+  const insertRecord = (record: any, callBack: any) => {
+    const originalRecords = [...data];
+    const newRecords: any = [record, ...data]
+
+    const delayFunction = async () => {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        if(callBack) {
+          callBack();
+        }
+      } catch (error) {
+        console.log("error thrown inside delayFunction", error);
+        if(callBack) {
+          callBack();
+        }
+        setData(originalRecords);
+      }
+    }
+    delayFunction();
+  }
+
+  const deleteRecord = (record: any, callBack: any) => {
+    const originalRecords = [...data];
+    const newRecords: any = data.filter((rec: any) => rec.id !== record.id);
 
     const delayFunction = async () => {
       try {
@@ -57,6 +101,8 @@ const useRequestDelay = (delayTime = 1000, initialData:any = []) => {
     requestStatus,
     error,
     updateRecord,
+    insertRecord,
+    deleteRecord
   };
 }
 

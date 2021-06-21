@@ -3,9 +3,9 @@ import { createContext } from "react";
 const SpeakerContext = createContext({} as any);
 
 const SpeakerProvider = (props: any) => {
-    const { children, speaker, updateRecord } = props;
+    const { children, speaker, updateRecord, insertRecord, deleteRecord } = props;
     return (
-        <SpeakerContext.Provider value={{ speaker, updateRecord }}>
+        <SpeakerContext.Provider value={{ speaker, updateRecord, insertRecord, deleteRecord }}>
             {children}
         </SpeakerContext.Provider>
     );
