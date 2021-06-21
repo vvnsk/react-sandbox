@@ -23,7 +23,6 @@ const SpeakersList = (props: any) => {
             </div>
         );
     }
-    console.log(data);
     return (
         <div className="container speakers-list">
             <ReactPlaceholder 
