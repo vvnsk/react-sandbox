@@ -3,7 +3,7 @@ import Spinner from "../../common/components/Spinner";
 import useFetchAll from "../../common/hooks/useFetchAll";
 
 export default function Cart(props: any) {
-  const { cart, updateQuantity } = props;
+  const { cart, dispatch } = props;
   const navigate = useNavigate();
   const urls = cart.map((i: any) => `products/${i.id}`);
   const { data: products, loading, error } = useFetchAll(urls);
@@ -25,7 +25,13 @@ export default function Cart(props: any) {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
+              onChange={(e) => 
+                dispatch({
+                  type: "updateQuantity",
+                  sku,
+                  quantity: parseInt(e.target.value),
+                })
+              }
               value={quantity}
             >
               <option value="0">Remove</option>

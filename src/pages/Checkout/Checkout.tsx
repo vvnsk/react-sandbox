@@ -15,7 +15,7 @@ const emptyAddress = {
 };
 
 export default function Checkout(props: any) {
-  const { emptyCart } = props;
+  const { dispatch } = props;
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveError] = useState(null);
@@ -48,7 +48,7 @@ export default function Checkout(props: any) {
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        emptyCart();
+        dispatch({ type: "empty" });
         setStatus(STATUS.COMPLETED);
       } catch (e: any) {
         setSaveError(e);
