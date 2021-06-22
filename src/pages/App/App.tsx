@@ -6,6 +6,7 @@ import Cart from "../Cart/Cart";
 import Detail from "../Detail/Detail";
 import Products from "../Products/Products";
 import { useEffect, useState } from "react";
+import Checkout from "../Checkout/Checkout";
 
 export default function App() {
   const [cart, setCart] = useState(() => {
@@ -42,6 +43,10 @@ export default function App() {
     });
   }
 
+  function emptyCart() {
+    setCart([]);
+  }
+  
   return (
     <>
       <div className="content">
@@ -59,6 +64,10 @@ export default function App() {
               element={<Cart cart={cart} updateQuantity={updateQuantity} />} 
             />
           </Routes>
+            <Route
+              path="/checkout"
+              element={<Checkout cart={cart} emptyCart={emptyCart} />}
+            />
         </main>
       </div>
       <Footer />
