@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Spinner from "../../common/components/Spinner";
 import useFetch from "../../common/hooks/useFetch";
+import { useCart } from "../App/context/cartContext";
 import PageNotFound from "../App/PageNotFound";
 
 export default function Detail(props: any) {
   const { id } = useParams();
+  const { dispatch } = useCart();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
   const { data: product, loading, error } = useFetch(`products/${id}`);
@@ -34,7 +36,7 @@ export default function Detail(props: any) {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
-            props.dispatch({ type: "add", id, sku });
+            dispatch({ type: "add", id, sku });
             navigate("/cart");
           }}
         >

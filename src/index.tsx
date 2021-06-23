@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import ErrorBoundary from './common/components/ErrorBoundary';
 import './index.css';
 import App from './pages/App/App';
+import { CartProvider } from './pages/App/context/cartContext';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </BrowserRouter>
     </ErrorBoundary>
   </React.StrictMode>,

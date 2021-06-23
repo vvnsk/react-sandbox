@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { saveShippingAddress } from "../../services/shippingService";
+import { useCart } from "../App/context/cartContext";
 
 const STATUS = {
   IDLE: "IDLE",
@@ -15,7 +16,7 @@ const emptyAddress = {
 };
 
 export default function Checkout(props: any) {
-  const { dispatch } = props;
+  const { dispatch } = useCart();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveError] = useState(null);

@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../common/components/Spinner";
 import useFetchAll from "../../common/hooks/useFetchAll";
+import { useCart } from "../App/context/cartContext";
 
 export default function Cart(props: any) {
-  const { cart, dispatch } = props;
+  const { cart, dispatch } = useCart();
   const navigate = useNavigate();
   const urls = cart.map((i: any) => `products/${i.id}`);
   const { data: products, loading, error } = useFetchAll(urls);
